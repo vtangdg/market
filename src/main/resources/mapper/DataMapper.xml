@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.market.dal.dao.DataMapper">
+
+
+    <insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `Data`
+        (
+        <trim suffixOverrides=",">
+                    <if test="id!=null">
+                        `id`,
+                    </if>
+                    <if test="circleT!=null">
+                        `circleT`,
+                    </if>
+                    <if test="circleDiffV!=null">
+                        `circleDiffV`,
+                    </if>
+                    <if test="A_T!=null">
+                        `A_T`,
+                    </if>
+                    <if test="A_V_H!=null">
+                        `A_V_H`,
+                    </if>
+                    <if test="A_V_L!=null">
+                        `A_V_L`,
+                    </if>
+                    <if test="A_V_E!=null">
+                        `A_V_E`,
+                    </if>
+                    <if test="B_T!=null">
+                        `B_T`,
+                    </if>
+                    <if test="B_V_H!=null">
+                        `B_V_H`,
+                    </if>
+                    <if test="B_V_L!=null">
+                        `B_V_L`,
+                    </if>
+                    <if test="B_V_E!=null">
+                        `B_V_E`,
+                    </if>
+                    <if test="C_T!=null">
+                        `C_T`,
+                    </if>
+                    <if test="C_V_H!=null">
+                        `C_V_H`,
+                    </if>
+                    <if test="C_V_L!=null">
+                        `C_V_L`,
+                    </if>
+                    <if test="C_V_E!=null">
+                        `C_V_E`,
+                    </if>
+                    <if test="D_T!=null">
+                        `D_T`,
+                    </if>
+                    <if test="D_V_H!=null">
+                        `D_V_H`,
+                    </if>
+                    <if test="D_V_L!=null">
+                        `D_V_L`,
+                    </if>
+                    <if test="D_V_E!=null">
+                        `D_V_E`,
+                    </if>
+                    <if test="E_T!=null">
+                        `E_T`,
+                    </if>
+                    <if test="E_V_H!=null">
+                        `E_V_H`,
+                    </if>
+                    <if test="E_V_L!=null">
+                        `E_V_L`,
+                    </if>
+                    <if test="E_V_E!=null">
+                        `E_V_E`,
+                    </if>
+                    <if test="F_T!=null">
+                        `F_T`,
+                    </if>
+                    <if test="F_V_H!=null">
+                        `F_V_H`,
+                    </if>
+                    <if test="F_V_L!=null">
+                        `F_V_L`,
+                    </if>
+                    <if test="F_V_E!=null">
+                        `F_V_E`,
+                    </if>
+                    <if test="G_T!=null">
+                        `G_T`,
+                    </if>
+                    <if test="G_V_H!=null">
+                        `G_V_H`,
+                    </if>
+                    <if test="G_V_L!=null">
+                        `G_V_L`,
+                    </if>
+                    <if test="G_V_E!=null">
+                        `G_V_E`,
+                    </if>
+                    <if test="H_T!=null">
+                        `H_T`,
+                    </if>
+                    <if test="H_V_H!=null">
+                        `H_V_H`,
+                    </if>
+                    <if test="H_V_L!=null">
+                        `H_V_L`,
+                    </if>
+                    <if test="H_V_E!=null">
+                        `H_V_E`,
+                    </if>
+                    <if test="imageUrl!=null">
+                        `imageUrl`,
+                    </if>
+                    <if test="remark!=null">
+                        `remark`,
+                    </if>
+                    <if test="date!=null">
+                        `date`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="circleT!=null">
+                    #{circleT},
+                </if>
+                <if test="circleDiffV!=null">
+                    #{circleDiffV},
+                </if>
+                <if test="A_T!=null">
+                    #{A_T},
+                </if>
+                <if test="A_V_H!=null">
+                    #{A_V_H},
+                </if>
+                <if test="A_V_L!=null">
+                    #{A_V_L},
+                </if>
+                <if test="A_V_E!=null">
+                    #{A_V_E},
+                </if>
+                <if test="B_T!=null">
+                    #{B_T},
+                </if>
+                <if test="B_V_H!=null">
+                    #{B_V_H},
+                </if>
+                <if test="B_V_L!=null">
+                    #{B_V_L},
+                </if>
+                <if test="B_V_E!=null">
+                    #{B_V_E},
+                </if>
+                <if test="C_T!=null">
+                    #{C_T},
+                </if>
+                <if test="C_V_H!=null">
+                    #{C_V_H},
+                </if>
+                <if test="C_V_L!=null">
+                    #{C_V_L},
+                </if>
+                <if test="C_V_E!=null">
+                    #{C_V_E},
+                </if>
+                <if test="D_T!=null">
+                    #{D_T},
+                </if>
+                <if test="D_V_H!=null">
+                    #{D_V_H},
+                </if>
+                <if test="D_V_L!=null">
+                    #{D_V_L},
+                </if>
+                <if test="D_V_E!=null">
+                    #{D_V_E},
+                </if>
+                <if test="E_T!=null">
+                    #{E_T},
+                </if>
+                <if test="E_V_H!=null">
+                    #{E_V_H},
+                </if>
+                <if test="E_V_L!=null">
+                    #{E_V_L},
+                </if>
+                <if test="E_V_E!=null">
+                    #{E_V_E},
+                </if>
+                <if test="F_T!=null">
+                    #{F_T},
+                </if>
+                <if test="F_V_H!=null">
+                    #{F_V_H},
+                </if>
+                <if test="F_V_L!=null">
+                    #{F_V_L},
+                </if>
+                <if test="F_V_E!=null">
+                    #{F_V_E},
+                </if>
+                <if test="G_T!=null">
+                    #{G_T},
+                </if>
+                <if test="G_V_H!=null">
+                    #{G_V_H},
+                </if>
+                <if test="G_V_L!=null">
+                    #{G_V_L},
+                </if>
+                <if test="G_V_E!=null">
+                    #{G_V_E},
+                </if>
+                <if test="H_T!=null">
+                    #{H_T},
+                </if>
+                <if test="H_V_H!=null">
+                    #{H_V_H},
+                </if>
+                <if test="H_V_L!=null">
+                    #{H_V_L},
+                </if>
+                <if test="H_V_E!=null">
+                    #{H_V_E},
+                </if>
+                <if test="imageUrl!=null">
+                    #{imageUrl},
+                </if>
+                <if test="remark!=null">
+                    #{remark},
+                </if>
+                <if test="date!=null">
+                    #{date},
+                </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateData">
+        UPDATE `Data`
+        SET
+        <trim suffixOverrides=",">
+            <if test="circleT != null">
+                `circleT` = #{circleT},
+            </if>
+            <if test="circleDiffV != null">
+                `circleDiffV` = #{circleDiffV},
+            </if>
+            <if test="A_T != null">
+                `A_T` = #{A_T},
+            </if>
+            <if test="A_V_H != null">
+                `A_V_H` = #{A_V_H},
+            </if>
+            <if test="A_V_L != null">
+                `A_V_L` = #{A_V_L},
+            </if>
+            <if test="A_V_E != null">
+                `A_V_E` = #{A_V_E},
+            </if>
+            <if test="B_T != null">
+                `B_T` = #{B_T},
+            </if>
+            <if test="B_V_H != null">
+                `B_V_H` = #{B_V_H},
+            </if>
+            <if test="B_V_L != null">
+                `B_V_L` = #{B_V_L},
+            </if>
+            <if test="B_V_E != null">
+                `B_V_E` = #{B_V_E},
+            </if>
+            <if test="C_T != null">
+                `C_T` = #{C_T},
+            </if>
+            <if test="C_V_H != null">
+                `C_V_H` = #{C_V_H},
+            </if>
+            <if test="C_V_L != null">
+                `C_V_L` = #{C_V_L},
+            </if>
+            <if test="C_V_E != null">
+                `C_V_E` = #{C_V_E},
+            </if>
+            <if test="D_T != null">
+                `D_T` = #{D_T},
+            </if>
+            <if test="D_V_H != null">
+                `D_V_H` = #{D_V_H},
+            </if>
+            <if test="D_V_L != null">
+                `D_V_L` = #{D_V_L},
+            </if>
+            <if test="D_V_E != null">
+                `D_V_E` = #{D_V_E},
+            </if>
+            <if test="E_T != null">
+                `E_T` = #{E_T},
+            </if>
+            <if test="E_V_H != null">
+                `E_V_H` = #{E_V_H},
+            </if>
+            <if test="E_V_L != null">
+                `E_V_L` = #{E_V_L},
+            </if>
+            <if test="E_V_E != null">
+                `E_V_E` = #{E_V_E},
+            </if>
+            <if test="F_T != null">
+                `F_T` = #{F_T},
+            </if>
+            <if test="F_V_H != null">
+                `F_V_H` = #{F_V_H},
+            </if>
+            <if test="F_V_L != null">
+                `F_V_L` = #{F_V_L},
+            </if>
+            <if test="F_V_E != null">
+                `F_V_E` = #{F_V_E},
+            </if>
+            <if test="G_T != null">
+                `G_T` = #{G_T},
+            </if>
+            <if test="G_V_H != null">
+                `G_V_H` = #{G_V_H},
+            </if>
+            <if test="G_V_L != null">
+                `G_V_L` = #{G_V_L},
+            </if>
+            <if test="G_V_E != null">
+                `G_V_E` = #{G_V_E},
+            </if>
+            <if test="H_T != null">
+                `H_T` = #{H_T},
+            </if>
+            <if test="H_V_H != null">
+                `H_V_H` = #{H_V_H},
+            </if>
+            <if test="H_V_L != null">
+                `H_V_L` = #{H_V_L},
+            </if>
+            <if test="H_V_E != null">
+                `H_V_E` = #{H_V_E},
+            </if>
+            <if test="imageUrl != null and imageUrl!=''">
+                `imageUrl` = #{imageUrl},
+            </if>
+            <if test="remark != null and remark!=''">
+                `remark` = #{remark},
+            </if>
+            <if test="date != null">
+                `date` = #{date},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `id` = #{id} and
+        </trim>
+    </update>
+
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `circleT`,
+        `circleDiffV`,
+        `A_T`,
+        `A_V_H`,
+        `A_V_L`,
+        `A_V_E`,
+        `B_T`,
+        `B_V_H`,
+        `B_V_L`,
+        `B_V_E`,
+        `C_T`,
+        `C_V_H`,
+        `C_V_L`,
+        `C_V_E`,
+        `D_T`,
+        `D_V_H`,
+        `D_V_L`,
+        `D_V_E`,
+        `E_T`,
+        `E_V_H`,
+        `E_V_L`,
+        `E_V_E`,
+        `F_T`,
+        `F_V_H`,
+        `F_V_L`,
+        `F_V_E`,
+        `G_T`,
+        `G_V_H`,
+        `G_V_L`,
+        `G_V_E`,
+        `H_T`,
+        `H_V_H`,
+        `H_V_L`,
+        `H_V_E`,
+        `imageUrl`,
+        `remark`,
+        `date`,
+        </trim>
+    </sql>
+    
+    <select id="list" resultType="com.example.market.dal.domain.Data">
+        SELECT <include refid="allResult" />
+        FROM `Data`
+    </select>
+
+
+
+</mapper>

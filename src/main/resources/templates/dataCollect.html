@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>dataCollect</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.css}" rel="stylesheet">
+    <link href="css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    
+</head>
+<body>
+    <div id="wrapper" class="container">
+        <main role="main" class="mt-3">
+            <form action="" th:action="@{/data/save}", th:method="post">
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-8">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">日期</span>
+                        </div>
+                        <input type="text" class="form-control" name="date" th:value="${day}">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">A_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="A_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">A_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="A_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">A_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="A_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">A_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="A_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">B_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="B_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">B_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="B_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">B_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="B_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">B_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="B_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">C_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="C_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">C_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="C_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">C_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="C_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">C_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="C_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">D_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="D_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">D_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="D_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">D_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="D_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">D_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="D_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">E_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="E_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">E_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="E_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">E_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="E_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">E_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="E_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">F_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="F_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">F_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="F_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">F_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="F_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">F_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="F_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">G_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="G_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">G_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="G_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">G_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="G_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">G_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="G_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">H_T</span>
+                        </div>
+                        <input type="text" class="form-control" name="H_T">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">H_V_H</span>
+                        </div>
+                        <input type="text" class="form-control" name="H_V_H">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">H_V_L</span>
+                        </div>
+                        <input type="text" class="form-control" name="H_V_L">
+                    </div>
+                    <div class="input-group input-group-sm mb-3 col-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">H_V_E</span>
+                        </div>
+                        <input type="text" class="form-control" name="H_V_E">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-8">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">imageUrl</span>
+                        </div>
+                        <input type="text" class="form-control" name="imageUrl">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <div class="input-group input-group-sm mb-3 col-8">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">remark</span>
+                        </div>
+                        <textarea class="form-control" id="desc" name="remark" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-row justify-content-center mt-3">
+                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+                
+                
+        
+                <!--<div>A_T:<input /></div>
+                <div>A_V_H:<input /></div>
+                <div>A_V_L:<input /></div>
+                <div>A_V_E:<input /></div>
+                <div>B_T:<input /></div>
+                <div>B_V_H:<input /></div>
+                <div>B_V_L:<input /></div>
+                <div>B_V_E:<input /></div>
+                <div>C_T:<input /></div>
+                <div>C_V_H:<input /></div>
+                <div>C_V_L:<input /></div>
+                <div>C_V_E:<input /></div>
+                <div>D_T:<input /></div>
+                <div>D_V_H:<input /></div>
+                <div>D_V_L:<input /></div>
+                <div>D_V_E:<input /></div>
+                <div>E_T:<input /></div>
+                <div>E_V_H:<input /></div>
+                <div>E_V_L:<input /></div>
+                <div>E_V_E:<input /></div>
+                <div>F_T:<input /></div>
+                <div>F_V_H:<input /></div>
+                <div>F_V_L:<input /></div>
+                <div>F_V_E:<input /></div>
+                <div>G_T:<input /></div>
+                <div>G_V_H:<input /></div>
+                <div>G_V_L:<input /></div>
+                <div>G_V_E:<input /></div>
+                <div>H_T:<input /></div>
+                <div>H_V_H:<input /></div>
+                <div>H_V_L:<input /></div>
+                <div>H_V_E:<input /></div>
+                <div>imageUrl:<input /></div>
+                <div>remark:<input /></div>
+        
+                <button type="submit">提交</button>-->
+    
+            </form>
+        </main>
+        
+    
+        <!--<script src="js/dataCollect.js"></script>-->
+    </div>
+</body>
+</html>
