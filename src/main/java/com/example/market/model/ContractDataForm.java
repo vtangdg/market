@@ -1,6 +1,6 @@
 package com.example.market.model;
 
-import com.example.market.dal.domain.Data;
+import com.example.market.dal.domain.ContractData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,8 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DataForm {
+public class ContractDataForm {
+    private Integer dataId;
     private String A_T;
     private Integer A_V_H;
     private Integer A_V_L;
@@ -191,12 +192,6 @@ public class DataForm {
     private Integer H_V_E;
 
     /**
-     * 图片地址
-     * isNullAble:0,defaultVal:
-     */
-    private String imageUrl;
-
-    /**
      * 备注
      * isNullAble:0,defaultVal:
      */
@@ -204,10 +199,9 @@ public class DataForm {
 
     private Integer date;
 
-    private Boolean contractDataInput;
 
-    public Data toData() {
-        Data data = Data.builder()
+    public ContractData toData() {
+        ContractData data = ContractData.builder()
                 .A_V_H(A_V_H)
                 .A_V_L(A_V_L)
                 .A_V_E(A_V_E)
@@ -232,7 +226,7 @@ public class DataForm {
                 .H_V_H(H_V_H)
                 .H_V_L(H_V_L)
                 .H_V_E(H_V_E)
-                .date(date)
+                .dataId(dataId)
                 .build();
         data.setA_T(minuteTransfer(date, A_T));
         data.setB_T(minuteTransfer(date, B_T));

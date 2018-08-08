@@ -7,7 +7,7 @@ import com.example.market.model.DataDisplayDTO;
 import java.util.List;
 
 public interface DataService {
-    void saveData(Data data);
+    Integer saveData(Data data);
 
     List<DataDisplayDTO> listData();
 

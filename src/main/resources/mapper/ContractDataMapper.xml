@@ -1,7 +1,235 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="packageMapper.ContractDataMapper">
+<mapper namespace="com.example.market.dal.dao.ContractDataMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `ContractData`
+        (
+        <trim suffixOverrides=",">
+            <if test="dataId!=null">
+                `dataId`,
+            </if>
+            <if test="circleT!=null">
+                `circleT`,
+            </if>
+            <if test="circleDiffV!=null">
+                `circleDiffV`,
+            </if>
+            <if test="A_T!=null">
+                `A_T`,
+            </if>
+            <if test="A_V_H!=null">
+                `A_V_H`,
+            </if>
+            <if test="A_V_L!=null">
+                `A_V_L`,
+            </if>
+            <if test="A_V_E!=null">
+                `A_V_E`,
+            </if>
+            <if test="B_T!=null">
+                `B_T`,
+            </if>
+            <if test="B_V_H!=null">
+                `B_V_H`,
+            </if>
+            <if test="B_V_L!=null">
+                `B_V_L`,
+            </if>
+            <if test="B_V_E!=null">
+                `B_V_E`,
+            </if>
+            <if test="C_T!=null">
+                `C_T`,
+            </if>
+            <if test="C_V_H!=null">
+                `C_V_H`,
+            </if>
+            <if test="C_V_L!=null">
+                `C_V_L`,
+            </if>
+            <if test="C_V_E!=null">
+                `C_V_E`,
+            </if>
+            <if test="D_T!=null">
+                `D_T`,
+            </if>
+            <if test="D_V_H!=null">
+                `D_V_H`,
+            </if>
+            <if test="D_V_L!=null">
+                `D_V_L`,
+            </if>
+            <if test="D_V_E!=null">
+                `D_V_E`,
+            </if>
+            <if test="E_T!=null">
+                `E_T`,
+            </if>
+            <if test="E_V_H!=null">
+                `E_V_H`,
+            </if>
+            <if test="E_V_L!=null">
+                `E_V_L`,
+            </if>
+            <if test="E_V_E!=null">
+                `E_V_E`,
+            </if>
+            <if test="F_T!=null">
+                `F_T`,
+            </if>
+            <if test="F_V_H!=null">
+                `F_V_H`,
+            </if>
+            <if test="F_V_L!=null">
+                `F_V_L`,
+            </if>
+            <if test="F_V_E!=null">
+                `F_V_E`,
+            </if>
+            <if test="G_T!=null">
+                `G_T`,
+            </if>
+            <if test="G_V_H!=null">
+                `G_V_H`,
+            </if>
+            <if test="G_V_L!=null">
+                `G_V_L`,
+            </if>
+            <if test="G_V_E!=null">
+                `G_V_E`,
+            </if>
+            <if test="H_T!=null">
+                `H_T`,
+            </if>
+            <if test="H_V_H!=null">
+                `H_V_H`,
+            </if>
+            <if test="H_V_L!=null">
+                `H_V_L`,
+            </if>
+            <if test="H_V_E!=null">
+                `H_V_E`,
+            </if>
+            <if test="remark!=null">
+                `remark`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="dataId!=null">
+                #{dataId},
+            </if>
+            <if test="circleT!=null">
+                #{circleT},
+            </if>
+            <if test="circleDiffV!=null">
+                #{circleDiffV},
+            </if>
+            <if test="A_T!=null">
+                #{A_T},
+            </if>
+            <if test="A_V_H!=null">
+                #{A_V_H},
+            </if>
+            <if test="A_V_L!=null">
+                #{A_V_L},
+            </if>
+            <if test="A_V_E!=null">
+                #{A_V_E},
+            </if>
+            <if test="B_T!=null">
+                #{B_T},
+            </if>
+            <if test="B_V_H!=null">
+                #{B_V_H},
+            </if>
+            <if test="B_V_L!=null">
+                #{B_V_L},
+            </if>
+            <if test="B_V_E!=null">
+                #{B_V_E},
+            </if>
+            <if test="C_T!=null">
+                #{C_T},
+            </if>
+            <if test="C_V_H!=null">
+                #{C_V_H},
+            </if>
+            <if test="C_V_L!=null">
+                #{C_V_L},
+            </if>
+            <if test="C_V_E!=null">
+                #{C_V_E},
+            </if>
+            <if test="D_T!=null">
+                #{D_T},
+            </if>
+            <if test="D_V_H!=null">
+                #{D_V_H},
+            </if>
+            <if test="D_V_L!=null">
+                #{D_V_L},
+            </if>
+            <if test="D_V_E!=null">
+                #{D_V_E},
+            </if>
+            <if test="E_T!=null">
+                #{E_T},
+            </if>
+            <if test="E_V_H!=null">
+                #{E_V_H},
+            </if>
+            <if test="E_V_L!=null">
+                #{E_V_L},
+            </if>
+            <if test="E_V_E!=null">
+                #{E_V_E},
+            </if>
+            <if test="F_T!=null">
+                #{F_T},
+            </if>
+            <if test="F_V_H!=null">
+                #{F_V_H},
+            </if>
+            <if test="F_V_L!=null">
+                #{F_V_L},
+            </if>
+            <if test="F_V_E!=null">
+                #{F_V_E},
+            </if>
+            <if test="G_T!=null">
+                #{G_T},
+            </if>
+            <if test="G_V_H!=null">
+                #{G_V_H},
+            </if>
+            <if test="G_V_L!=null">
+                #{G_V_L},
+            </if>
+            <if test="G_V_E!=null">
+                #{G_V_E},
+            </if>
+            <if test="H_T!=null">
+                #{H_T},
+            </if>
+            <if test="H_V_H!=null">
+                #{H_V_H},
+            </if>
+            <if test="H_V_L!=null">
+                #{H_V_L},
+            </if>
+            <if test="H_V_E!=null">
+                #{H_V_E},
+            </if>
+            <if test="remark!=null">
+                #{remark}
+            </if>
+        </trim>
+        )
+    </insert>
 
 
 </mapper>

@@ -17,9 +17,9 @@ public class DataServiceImpl implements DataService {
     private DataLogic dataLogic;
 
     @Override
-    public void saveData(Data data) {
-
+    public Integer saveData(Data data) {
         dataLogic.insert(data);
+        return data.getId();
     }
 
 

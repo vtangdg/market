@@ -1,33 +1,20 @@
 package com.example.market.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    @RequestMapping(value = "tt", method = RequestMethod.GET)
-    public String dataCollect() {
-        return "dataCollect";
-    }
-    @RequestMapping("dataDisplay")
-    public String dataDisplay() {
-
-        return "dataDisplay";
-    }
 
     @RequestMapping(value = "home")
     public String home() {
         return "home";
     }
 
-    @PostMapping("test")
-    @ResponseBody
+    @GetMapping("test")
     public String test() {
-        return "hello";
+        return "common/nav";
     }
 
 }
