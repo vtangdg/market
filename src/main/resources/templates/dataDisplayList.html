@@ -20,6 +20,21 @@
             vertical-align: middle;
             
         }
+        .remark {
+            display: inline-block;
+            text-align: left;
+            width: 100px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .remark:hover {
+            width: 300px;
+            height: auto;
+            word-break:break-all;
+            white-space: pre-wrap;
+            text-decoration: none;
+        }
         
     </style>
     
@@ -124,8 +139,8 @@
                         <td th:text="${item.date}"></td>
                         <td th:text="${item.startV}"></td>
                         <td th:text="${item.endV}"></td>
-                        <td th:text="${item.imageUrl}"></td>
-                        <td th:text="${item.remark}"></td>
+                        <td><img th:src="@{${item.imageUrl}}"  /></td>
+                        <td th:text="${item.remark}" class="remark"></td>
                         <!--<td>-->
                         <!--&lt;!&ndash;<a class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>&ndash;&gt;-->
                         <!--&lt;!&ndash;<button th:attr="del_uri=@{/emp/}+${emp.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>&ndash;&gt;-->

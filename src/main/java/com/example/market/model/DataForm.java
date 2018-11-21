@@ -1,10 +1,12 @@
 package com.example.market.model;
 
 import com.example.market.dal.domain.Data;
+import com.example.market.util.TimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -196,6 +198,8 @@ public class DataForm {
      */
     private String imageUrl;
 
+    private MultipartFile file;
+
     /**
      * 备注
      * isNullAble:0,defaultVal:
@@ -203,8 +207,10 @@ public class DataForm {
     private String remark;
 
     private Integer date;
+    private Boolean special;
 
     private Boolean contractDataInput;
+
 
     public Data toData() {
         Data data = Data.builder()
@@ -233,16 +239,19 @@ public class DataForm {
                 .H_V_L(H_V_L)
                 .H_V_E(H_V_E)
                 .date(date)
+                .remark(remark)
+                .special(special)
                 .build();
-        data.setA_T(minuteTransfer(date, A_T));
-        data.setB_T(minuteTransfer(date, B_T));
-        data.setC_T(minuteTransfer(date, C_T));
-        data.setD_T(minuteTransfer(date, D_T));
-        data.setE_T(minuteTransfer(date, E_T));
-        data.setF_T(minuteTransfer(date, F_T));
+        data.setA_T(TimeUtil.minuteTransfer(date, A_T, A_T));
+        data.setB_T(TimeUtil.minuteTransfer(date, A_T, B_T));
+
+        data.setC_T(TimeUtil.minuteTransfer(date, B_T, C_T));
+        data.setD_T(TimeUtil.minuteTransfer(date, C_T, D_T));
+        data.setE_T(TimeUtil.minuteTransfer(date, D_T, E_T));
+        data.setF_T(TimeUtil.minuteTransfer(date, E_T, F_T));
         if (!StringUtils.isEmpty(H_T)) {
-            data.setG_T(minuteTransfer(date, G_T));
-            data.setH_T(minuteTransfer(date, H_T));
+            data.setG_T(TimeUtil.minuteTransfer(date, F_T, G_T));
+            data.setH_T(TimeUtil.minuteTransfer(date, G_T, H_T));
         }
 
         boolean upward = data.getB_V_E() - data.getA_V_E() > 0;
@@ -254,12 +263,5 @@ public class DataForm {
 
         return data;
 
-    }
-
-    private Integer minuteTransfer(Integer day, String shortTime) {
-        LocalDate date = LocalDate.parse(day.toString(), DateTimeFormatter.BASIC_ISO_DATE);
-        LocalTime time = LocalTime.parse(shortTime, DateTimeFormatter.ofPattern("HHmm"));
-        LocalDateTime dateTime = LocalDateTime.of(date, time);
-        return (int)(dateTime.toEpochSecond(ZoneOffset.of("+8")) / 60);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.market.model;
 
 import com.example.market.dal.domain.ContractData;
+import com.example.market.util.TimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -228,15 +229,15 @@ public class ContractDataForm {
                 .H_V_E(H_V_E)
                 .dataId(dataId)
                 .build();
-        data.setA_T(minuteTransfer(date, A_T));
-        data.setB_T(minuteTransfer(date, B_T));
-        data.setC_T(minuteTransfer(date, C_T));
-        data.setD_T(minuteTransfer(date, D_T));
-        data.setE_T(minuteTransfer(date, E_T));
-        data.setF_T(minuteTransfer(date, F_T));
+        data.setA_T(TimeUtil.minuteTransfer(date, A_T, A_T));
+        data.setB_T(TimeUtil.minuteTransfer(date, A_T, B_T));
+        data.setC_T(TimeUtil.minuteTransfer(date, B_T, C_T));
+        data.setD_T(TimeUtil.minuteTransfer(date, C_T, D_T));
+        data.setE_T(TimeUtil.minuteTransfer(date, D_T, E_T));
+        data.setF_T(TimeUtil.minuteTransfer(date, E_T, F_T));
         if (!StringUtils.isEmpty(H_T)) {
-            data.setG_T(minuteTransfer(date, G_T));
-            data.setH_T(minuteTransfer(date, H_T));
+            data.setG_T(TimeUtil.minuteTransfer(date, F_T, G_T));
+            data.setH_T(TimeUtil.minuteTransfer(date, G_T, H_T));
         }
 
         boolean upward = data.getB_V_E() - data.getA_V_E() > 0;

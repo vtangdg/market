@@ -2,6 +2,7 @@ package com.example.market.controller;
 
 import com.example.market.api.ContractDataService;
 import com.example.market.api.DataService;
+import com.example.market.api.FileService;
 import com.example.market.model.ContractDataForm;
 import com.example.market.model.DataDisplayDTO;
 import com.example.market.model.DataForm;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +28,8 @@ public class DataController {
     private DataService dataService;
     @Autowired
     private ContractDataService contractDataService;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("data")
     public String toDataCollect(Model model) {
@@ -35,10 +39,25 @@ public class DataController {
 
     @PostMapping("data")
     public String saveData(DataForm form) {
+        if (!form.getFile().isEmpty()) {
+            String fileName = fileService.save(form.getFile(), form.getDate().toString());
+            form.setImageUrl("image" + fileName);
+        }
+
         Integer id = dataService.saveData(form.toData());
         if (form.getContractDataInput() != null && form.getContractDataInput()) {
             return String.format("redirect:/contractData?dataId=%s&date=%s", id, form.getDate());
         }
+        return "redirect:/data";
+    }
+
+    @GetMapping("home")
+    public String home() {
+        return "home";
+    }
+    @PostMapping("test")
+    public String test(MultipartFile file) {
+        fileService.save(file, "20180822");
         return "redirect:/data";
     }
 

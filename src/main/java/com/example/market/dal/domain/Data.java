@@ -243,6 +243,8 @@ public class Data implements Serializable {
 
     private Integer date;
 
+    private Boolean special;
+
     public DataDisplayDTO toDataDisplayDTO() {
         boolean upward = this.circleDiffV > 0;
         Integer startV = upward ? A_V_L : A_V_H;
