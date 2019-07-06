@@ -412,8 +412,10 @@
     </sql>
     
     <select id="list" resultType="com.example.market.dal.domain.Data">
-        SELECT <include refid="allResult" />
+        SELECT
+        <include refid="allResult"/>
         FROM `Data`
+        order by id desc limit 100
     </select>
 
 
