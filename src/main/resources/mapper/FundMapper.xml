@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.market.dal.dao.FundMapper">
+    <sql id="tableName"> Fund </sql>
+    <!-- 表字段 -->
+    <sql id="Base_Column_List">
+            id, code, name, incrY5, cxL3, cxL5, cxDay, heavyStock, stockRatio, stockDay, queryDay    </sql>
+
+    <sql id="fetchOrderByClause">
+        <choose>
+            <when test="orderBy != null">
+                order by ${orderBy}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </sql>
+
+    <!-- fetch limit子句-->
+    <sql id="fetchLimitClause">
+        <if test="start != null and start >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{start}, #{pageSize}
+        </if>
+    </sql>
+
+    <!-- fetch where子句-->
+    <sql id="fetchWhereClause">
+        <where>
+            1 = 1
+            <if test="id != null">AND id = #{id}</if>
+            <if test="code != null">AND code = #{code}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="incrY5 != null">AND incrY5 = #{incrY5}</if>
+            <if test="cxL3 != null">AND cxL3 = #{cxL3}</if>
+            <if test="cxL5 != null">AND cxL5 = #{cxL5}</if>
+            <if test="cxDay != null">AND cxDay = #{cxDay}</if>
+            <if test="heavyStock != null">AND heavyStock = #{heavyStock}</if>
+            <if test="stockRatio != null">AND stockRatio = #{stockRatio}</if>
+            <if test="stockDay != null">AND stockDay = #{stockDay}</if>
+            <if test="queryDay != null">AND queryDay = #{queryDay}</if>
+            <if test="ids != null and ids.size() > 0">
+                AND id in
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">#{id}</foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="fetch"
+            parameterType="com.example.market.model.FundQuery"
+            resultType="com.example.market.dal.domain.FundDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="tableName"/>
+        <include refid="fetchWhereClause"/>
+        <include refid="fetchOrderByClause"/>
+        <include refid="fetchLimitClause"/>
+    </select>
+
+    <!-- 通过id快速查找 -->
+    <select id="selectOneById" parameterType="long"
+            resultType="com.example.market.dal.domain.FundDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+        LIMIT 1
+    </select>
+
+    <select id="count"
+            parameterType="com.example.market.model.FundQuery"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        <include refid="tableName"/>
+        <include refid="fetchWhereClause"/>
+        LIMIT 1
+    </select>
+
+    <sql id="Update_Column_List">
+        <set>
+            <if test="id != null">id = #{id},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="incrY5 != null">incrY5 = #{incrY5},</if>
+            <if test="cxL3 != null">cxL3 = #{cxL3},</if>
+            <if test="cxL5 != null">cxL5 = #{cxL5},</if>
+            <if test="cxDay != null">cxDay = #{cxDay},</if>
+            <if test="heavyStock != null">heavyStock = #{heavyStock},</if>
+            <if test="stockRatio != null">stockRatio = #{stockRatio},</if>
+            <if test="stockDay != null">stockDay = #{stockDay},</if>
+            <if test="queryDay != null">queryDay = #{queryDay},</if>
+        </set>
+    </sql>
+
+    <update id="update" parameterType="com.example.market.dal.domain.FundDO">
+        update
+        <include refid="tableName"/>
+        <include refid="Update_Column_List"/>
+        where id = #{id,jdbcType=BIGINT}
+        limit 1;
+    </update>
+
+
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.example.market.dal.domain.FundDO" useGeneratedKeys="true">
+        insert into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="code != null">code,</if>
+            <if test="name != null">name,</if>
+            <if test="incrY5 != null">incrY5,</if>
+            <if test="cxL3 != null">cxL3,</if>
+            <if test="cxL5 != null">cxL5,</if>
+            <if test="cxDay != null">cxDay,</if>
+            <if test="heavyStock != null">heavyStock,</if>
+            <if test="stockRatio != null">stockRatio,</if>
+            <if test="stockDay != null">stockDay,</if>
+            <if test="queryDay != null">queryDay,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="incrY5 != null">#{incrY5},</if>
+            <if test="cxL3 != null">#{cxL3},</if>
+            <if test="cxL5 != null">#{cxL5},</if>
+            <if test="cxDay != null">#{cxDay},</if>
+            <if test="heavyStock != null">#{heavyStock},</if>
+            <if test="stockRatio != null">#{stockRatio},</if>
+            <if test="stockDay != null">#{stockDay},</if>
+            <if test="queryDay != null">#{queryDay},</if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsert" useGeneratedKeys="true" parameterType="com.example.market.dal.domain.FundDO">
+        insert into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            code,
+            name,
+            incrY5,
+            cxL3,
+            cxL5,
+            cxDay,
+            heavyStock,
+            stockRatio,
+            stockDay,
+            queryDay,
+        </trim>
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.code},
+                #{item.name},
+                #{item.incrY5},
+                #{item.cxL3},
+                #{item.cxL5},
+                #{item.cxDay},
+                #{item.heavyStock},
+                #{item.stockRatio},
+                #{item.stockDay},
+                #{item.queryDay},
+            </trim>
+        </foreach>
+    </insert>
+
+</mapper>

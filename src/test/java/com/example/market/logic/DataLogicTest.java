@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class DataLogicTest extends BaseTest{
+public class DataLogicTest extends BaseTest {
     @Autowired
     private DataLogic dataLogic;
 
