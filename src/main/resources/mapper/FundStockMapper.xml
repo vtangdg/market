@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.market.dal.dao.FundStockDao">
+    <sql id="tableName"> FundStock </sql>
+    <!-- 表字段 -->
+    <sql id="Base_Column_List">
+            id, code, name, rank, stockName, stockValue, stockNum, stockChange, valueRate, totalValueRate, stockValueRate, fundId   </sql>
+
+    <sql id="fetchOrderByClause">
+        <choose>
+            <when test="orderBy != null">
+                order by ${orderBy}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </sql>
+
+    <!-- fetch limit子句-->
+    <sql id="fetchLimitClause">
+        <if test="start != null and start >= 0 and pageSize != null and pageSize > 0">
+            LIMIT #{start}, #{pageSize}
+        </if>
+    </sql>
+
+    <!-- fetch where子句-->
+    <sql id="fetchWhereClause">
+        <where>
+            1 = 1
+            <if test="id != null">AND id = #{id}</if>
+            <if test="code != null">AND code = #{code}</if>
+            <if test="name != null">AND name = #{name}</if>
+            <if test="rank != null">AND rank = #{rank}</if>
+            <if test="stockName != null">AND stockName = #{stockName}</if>
+            <if test="stockValue != null">AND stockValue = #{stockValue}</if>
+            <if test="stockNum != null">AND stockNum = #{stockNum}</if>
+            <if test="stockChange != null">AND stockChange = #{stockChange}</if>
+            <if test="valueRate != null">AND valueRate = #{valueRate}</if>
+            <if test="totalValueRate != null">AND totalValueRate = #{totalValueRate}</if>
+            <if test="stockValueRate != null">AND stockValueRate = #{stockValueRate}</if>
+            <if test="fundId != null">AND fundId = #{fundId}</if>
+            <if test="ids != null and ids.size() > 0">
+                AND id in
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">#{id}</foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="fetch"
+            parameterType="com.example.market.model.FundStockQuery"
+            resultType="com.example.market.dal.domain.FundStockDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="tableName"/>
+        <include refid="fetchWhereClause"/>
+        <include refid="fetchOrderByClause"/>
+        <include refid="fetchLimitClause"/>
+    </select>
+
+    <!-- 通过id快速查找 -->
+    <select id="selectOneById" parameterType="long"
+            resultType="com.example.market.dal.domain.FundStockDO">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="tableName"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+        LIMIT 1
+    </select>
+
+    <select id="count"
+            parameterType="com.example.market.model.FundStockQuery"
+            resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        <include refid="tableName"/>
+        <include refid="fetchWhereClause"/>
+        LIMIT 1
+    </select>
+
+    <sql id="Update_Column_List">
+        <set>
+            <if test="id != null">id = #{id},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="rank != null">rank = #{rank},</if>
+            <if test="stockName != null">stockName = #{stockName},</if>
+            <if test="stockValue != null">stockValue = #{stockValue},</if>
+            <if test="stockNum != null">stockNum = #{stockNum},</if>
+            <if test="stockChange != null">stockChange = #{stockChange},</if>
+            <if test="valueRate != null">valueRate = #{valueRate},</if>
+            <if test="totalValueRate != null">totalValueRate = #{totalValueRate},</if>
+            <if test="stockValueRate != null">stockValueRate = #{stockValueRate},</if>
+            <if test="fundId != null">fundId = #{fundId},</if>
+        </set>
+    </sql>
+
+    <update id="update" parameterType="com.example.market.dal.domain.FundStockDO">
+        update
+        <include refid="tableName"/>
+        <include refid="Update_Column_List"/>
+        where id = #{id,jdbcType=BIGINT}
+        limit 1;
+    </update>
+
+
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.example.market.dal.domain.FundStockDO" useGeneratedKeys="true">
+        insert into
+        <include refid="tableName"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="code != null">code,</if>
+            <if test="name != null">name,</if>
+            <if test="rank != null">rank,</if>
+            <if test="stockName != null">stockName,</if>
+            <if test="stockValue != null">stockValue,</if>
+            <if test="stockNum != null">stockNum,</if>
+            <if test="stockChange != null">stockChange,</if>
+            <if test="valueRate != null">valueRate,</if>
+            <if test="totalValueRate != null">totalValueRate,</if>
+            <if test="stockValueRate != null">stockValueRate,</if>
+            <if test="fundId != null">fundId,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="rank != null">#{rank},</if>
+            <if test="stockName != null">#{stockName},</if>
+            <if test="stockValue != null">#{stockValue},</if>
+            <if test="stockNum != null">#{stockNum},</if>
+            <if test="stockChange != null">#{stockChange},</if>
+            <if test="valueRate != null">#{valueRate},</if>
+            <if test="totalValueRate != null">#{totalValueRate},</if>
+            <if test="stockValueRate != null">#{stockValueRate},</if>
+            <if test="fundId != null">#{fundId},</if>
+        </trim>
+    </insert>
+
+</mapper>
