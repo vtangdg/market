@@ -26,6 +26,6 @@ public class FundTest extends BaseTest {
 
     @Test
     public void pullDetail() {
-        fundService.pullDetail();
+        // fundService.pullDetail();
     }
 }

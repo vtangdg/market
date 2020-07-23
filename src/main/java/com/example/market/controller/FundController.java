@@ -53,4 +53,10 @@ public class FundController {
         return fundService.countStock();
     }
 
+    @RequestMapping("getStockData")
+    @ResponseBody
+    public Object getStockData() {
+        return fundService.getStockData();
+    }
+
 }

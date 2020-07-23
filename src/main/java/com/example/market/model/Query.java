@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 public class Query extends BaseQuery {
 
-    private static final Integer MAX_PAGE_SIZE = 5000;
+    private static final Integer MAX_PAGE_SIZE = 50000;
 
     private static final Integer DEFAULT_PAGE_SIZE = 50;
 

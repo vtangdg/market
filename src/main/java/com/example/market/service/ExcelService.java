@@ -43,7 +43,7 @@ public class ExcelService {
         if (excelList == null || excelList.size() < 1) {
             return;
         }
-        String stockDay = specialDayExtract(excelList.get(0).get(7), 0);
+        String stockDay = specialDayExtract(excelList.get(0).get(7), 0).replace(".", "-");
         String cxDay = specialDayExtract(excelList.get(0).get(6), 1);
         excelList.remove(0);
         int i = 0;
@@ -53,16 +53,16 @@ public class ExcelService {
             model.setName(t.get(1));
             model.setIncrY5(new BigDecimal(t.get(5)));
             model.setCxL3(Byte.valueOf(t.get(6).substring(0, 1)));
-            if (!NumberUtils.isDigits(t.get(8).substring(0, 1))) {
-                log.warn(t.get(8));
+            if (!NumberUtils.isDigits(t.get(9).substring(0, 1))) {
+                log.warn(t.get(9));
                 model.setCxL5((byte)-1);
             } else {
-                model.setCxL5(Byte.valueOf(t.get(8).substring(0, 1)));
+                model.setCxL5(Byte.valueOf(t.get(9).substring(0, 1)));
             }
 
             model.setCxDay(cxDay);
             model.setHeavyStock(t.get(7));
-            model.setStockRatio(new BigDecimal(t.get(9)));
+            model.setStockRatio(new BigDecimal(t.get(10)));
             model.setStockDay(stockDay);
             model.setQueryDay(fileName);
 

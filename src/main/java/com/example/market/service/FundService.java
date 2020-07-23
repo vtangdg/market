@@ -1,24 +1,22 @@
 package com.example.market.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.market.dal.dao.FundMapper;
 import com.example.market.dal.dao.FundStockDao;
 import com.example.market.dal.domain.FundDO;
 import com.example.market.dal.domain.FundStockDO;
 import com.example.market.model.FundQuery;
+import com.example.market.model.FundStockAnalysisDTO;
+import com.example.market.model.FundStockQuery;
 import com.example.market.util.HttpUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author degang
@@ -55,10 +53,50 @@ public class FundService {
         return linkMap;
     }
 
+    public Map getStockData() {
+        FundStockQuery query = new FundStockQuery();
+        query.setPageSize(50000);
+        List<FundStockDO> list = fundStockDao.fetch(query);
+        Map<String, List<FundStockDO>> collect = list.stream().collect(Collectors.groupingBy(FundStockDO::getStockName));
+        ArrayList<Map.Entry<String, List<FundStockDO>>> entryList = new ArrayList<>(collect.entrySet());
+        entryList.sort(((o1, o2) -> o2.getValue().size() - o1.getValue().size()));
+
+        Map<String, List<FundStockAnalysisDTO>> linkMap = new LinkedHashMap<>();
+        entryList.forEach(t -> {
+            linkMap.put(t.getKey(),
+                    t.getValue().stream()
+                            .map(this::convert)
+                            .sorted(Comparator.comparingLong(FundStockAnalysisDTO::getStockRMB).reversed())
+                            .collect(Collectors.toList()));
+        });
+
+        return linkMap;
+    }
+
+    private FundStockAnalysisDTO convert(FundStockDO model) {
+        FundStockAnalysisDTO dto = new FundStockAnalysisDTO();
+        dto.setStockRMB(parseStockValue(model.getStockValue()));
+        dto.setStockValue(model.getStockValue());
+        dto.setStockNum(model.getStockNum());
+        dto.setStockChange(model.getStockChange());
+        return dto;
+    }
+
+    private Long parseStockValue(String stockValue) {
+        if (stockValue.indexOf('万') != -1 ) {
+            return new BigDecimal(stockValue.substring(0, stockValue.length() - 1)).multiply(BigDecimal.valueOf(10000L)).longValue();
+        }
+        if (stockValue.indexOf('亿') != -1) {
+            return new BigDecimal(stockValue.substring(0, stockValue.length() - 1)).multiply(BigDecimal.valueOf(1_000_000_000L)).longValue();
+        }
+
+        return Long.valueOf(stockValue);
+    }
+
     public void pullDetail() {
         String format = "http://www.iwencai.com/stockpick/get-detailed-data?sc=%s&dr=%s&question_type=fund&time_type=%s&ndd=%s";
         FundQuery query = new FundQuery();
-        query.setPageSize(1);
+        query.setPageSize(1000);
         query.setOrderBy("id asc");
         List<FundDO> list = fundMapper.fetch(query);
 
@@ -74,7 +112,7 @@ public class FundService {
                     model.setRank(Byte.valueOf(e.get(2)));
                     model.setStockName(e.get(3));
                     model.setStockValue(e.get(4));
-                    model.setStockName(e.get(5));
+                    model.setStockNum(e.get(5));
                     model.setStockChange(e.get(6));
                     model.setValueRate(new BigDecimal(e.get(7)));
                     model.setTotalValueRate(new BigDecimal(e.get(8)));
@@ -83,7 +121,7 @@ public class FundService {
 
                     fundStockDao.insert(model);
                 });
-                System.out.println(s);
+                Thread.sleep(300);
             } catch (Exception e) {
                 log.error("", e);
             }
