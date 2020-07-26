@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>dataCollect</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.css}" rel="stylesheet">
+    <link href="css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    
+    <style type="text/css">
+        .table th {
+            border: 1px solid #dee2e6;
+            border-collapse: collapse;
+        }
+        .table thead th,td {
+            text-align: center;
+            vertical-align: middle;
+            
+        }
+        .remark {
+            display: inline-block;
+            text-align: left;
+            width: 100px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .remark:hover {
+            width: 300px;
+            height: auto;
+            word-break:break-all;
+            white-space: pre-wrap;
+            text-decoration: none;
+        }
+        
+    </style>
+    
+    
+</head>
+<body>
+    <div id="wrapper" class="container">
+        <main role="main" class="mt-3">
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">股票名称</th>
+                        <th rowspan="1">持仓数量</th>
+                        <th rowspan="1">价值</th>
+                        <th rowspan="1">变动</th>
+                        <th rowspan="2">基金名称</th>
+                        <th rowspan="1">在持仓中排名</th>
+                        <th rowspan="1">晨星3年评级</th>
+                        <th rowspan="1">晨星5年评级</th>
+                
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item:${items}">
+                        <td th:text="${item.stockName}"></td>
+                        <td th:text="${item.stockNum}"></td>
+                        <td th:text="${item.stockValue}"></td>
+                        <td th:text="${item.stockChange}"></td>
+                        <td th:text="${item.fundName}"></td>
+                        <td th:text="${item.rank}"></td>
+                        <td th:text="${item.cxL3}"></td>
+                        <td th:text="${item.cxL5}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    
+        <!--<script src="js/dataCollect.js"></script>-->
+    </div>
+</body>
+</html>

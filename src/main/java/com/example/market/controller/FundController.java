@@ -1,9 +1,11 @@
 package com.example.market.controller;
 
+import com.example.market.model.FundStockAnalysisDTO;
 import com.example.market.service.ExcelService;
 import com.example.market.service.FundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author degang
@@ -49,14 +53,21 @@ public class FundController {
 
     @RequestMapping("countStock")
     @ResponseBody
-    public Object countStock() {
-        return fundService.countStock();
+    public Object countStock(@RequestParam(name = "queryDay", required = false) String queryDay) {
+        return fundService.countStock(queryDay);
     }
 
     @RequestMapping("getStockData")
     @ResponseBody
     public Object getStockData() {
         return fundService.getStockData();
+    }
+
+    @RequestMapping("stockDataTable")
+    public String stockDataTable(@RequestParam(name = "queryDay", required = false) String queryDay, Model model) {
+        List<FundStockAnalysisDTO> list = fundService.listStockData(queryDay);
+        model.addAttribute("items", list);
+        return "stockDisplayList";
     }
 
 }

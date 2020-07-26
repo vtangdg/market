@@ -1,6 +1,6 @@
 package com.example.market.service;
 
-import com.example.market.dal.dao.FundMapper;
+import com.example.market.dal.dao.FundDao;
 import com.example.market.dal.domain.FundDO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExcelService {
     @Resource
-    private FundMapper fundMapper;
+    private FundDao fundDao;
 
     /**
      * @param inputStream 导入数据
@@ -69,7 +68,7 @@ public class ExcelService {
             return model;
         }).collect(Collectors.toList());
 
-        fundMapper.batchInsert(collect);
+        fundDao.batchInsert(collect);
     }
 
     public static void main(String[] args) {

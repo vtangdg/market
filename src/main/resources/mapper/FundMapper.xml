@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.market.dal.dao.FundMapper">
+<mapper namespace="com.example.market.dal.dao.FundDao">
     <sql id="tableName"> Fund </sql>
     <!-- 表字段 -->
     <sql id="Base_Column_List">
@@ -172,4 +172,11 @@
         </foreach>
     </insert>
 
+    <select id="listAnalysisData" resultType="com.example.market.model.FundStockAnalysisDTO">
+        select b.stockName, b.stockValue, b.stockChange, b.stockNum, a.name as fundName, b.rank, a.cxL3, a.cxL5
+        from Fund a
+                 join FundStock b on a.id = b.fundId
+        where a.queryDay = #{queryDay}
+        limit 50000
+    </select>
 </mapper>

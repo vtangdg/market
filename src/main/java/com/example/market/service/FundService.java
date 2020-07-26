@@ -1,7 +1,7 @@
 package com.example.market.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.market.dal.dao.FundMapper;
+import com.example.market.dal.dao.FundDao;
 import com.example.market.dal.dao.FundStockDao;
 import com.example.market.dal.domain.FundDO;
 import com.example.market.dal.domain.FundStockDO;
@@ -12,6 +12,7 @@ import com.example.market.util.HttpUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -25,32 +26,25 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class FundService {
+    List<String> NOT_SHOW_STOCK = Arrays.asList(
+            "贵州茅台,600519",
+            "立讯精密,002475",
+            "五粮液,000858"
+            );
+    private final boolean EXCLUDE_START_3 = true;
+
     @Resource
-    private FundMapper fundMapper;
+    private FundDao fundDao;
     @Resource
     private FundStockDao fundStockDao;
 
-    public Map countStock() {
-        FundQuery query = new FundQuery();
-        query.setPageSize(5000);
-        List<FundDO> list = fundMapper.fetch(query);
-
-        Map<String, Integer> resMap = new HashMap<>();
-        list.stream().map(FundDO::getHeavyStock).forEach(t -> {
-            String[] split = t.split("\\|\\|");
-            String key = split[0];
-            resMap.put(key, resMap.get(key) == null ? 1 : resMap.get(key) + 1);
+    public Map countStock(String queryDay) {
+        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entries = listStockDataMap(queryDay);
+        Map<String, Integer> resMap = new LinkedHashMap<>();
+        entries.forEach(t -> {
+            resMap.put(t.getKey(), t.getValue().size());
         });
-
-        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(resMap.entrySet());
-        entryList.sort(((o1, o2) -> o2.getValue() - o1.getValue()));
-
-        Map<String, Integer> linkMap = new LinkedHashMap<>();
-        entryList.forEach(t -> {
-            linkMap.put(t.getKey(), t.getValue());
-        });
-
-        return linkMap;
+        return resMap;
     }
 
     public Map getStockData() {
@@ -73,6 +67,45 @@ public class FundService {
         return linkMap;
     }
 
+    public List<Map.Entry<String, List<FundStockAnalysisDTO>>> listStockDataMap(String queryDay) {
+        if (queryDay == null) {
+            FundDO latestRecord = getLatestRecord();
+            if (latestRecord == null) {
+                return new ArrayList<>();
+            }
+            queryDay = latestRecord.getQueryDay();
+        }
+
+
+        List<FundStockAnalysisDTO> list = fundDao.listAnalysisData(queryDay);
+        list.forEach(t -> t.setStockRMB(parseStockValue(t.getStockValue())));
+        Map<String, List<FundStockAnalysisDTO>> collect = list.stream()
+                .filter(t -> {
+                    if (NOT_SHOW_STOCK.contains(t.getStockName())) {
+                        return false;
+                    }
+                    if (EXCLUDE_START_3 && t.getStockName().contains(",3")) {
+                        return false;
+                    }
+                    return true;
+                })
+                .collect(Collectors.groupingBy(FundStockAnalysisDTO::getStockName));
+        ArrayList<Map.Entry<String, List<FundStockAnalysisDTO>>> entryList = new ArrayList<>(collect.entrySet());
+        entryList.sort(((o1, o2) -> o2.getValue().size() - o1.getValue().size()));
+        entryList.forEach(t -> {
+            t.getValue().sort(Comparator.comparingLong(FundStockAnalysisDTO::getStockRMB).reversed());
+        });
+
+        return entryList;
+    }
+
+    public List<FundStockAnalysisDTO> listStockData(String queryDay) {
+        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entryList = listStockDataMap(queryDay);
+        List<FundStockAnalysisDTO> resList = new ArrayList<>();
+        entryList.forEach(t -> resList.addAll(t.getValue()));
+        return resList;
+    }
+
     private FundStockAnalysisDTO convert(FundStockDO model) {
         FundStockAnalysisDTO dto = new FundStockAnalysisDTO();
         dto.setStockRMB(parseStockValue(model.getStockValue()));
@@ -93,15 +126,29 @@ public class FundService {
         return Long.valueOf(stockValue);
     }
 
-    public void pullDetail() {
+    public void pullDetail(String queryDay, List<Long> ids) {
         String format = "http://www.iwencai.com/stockpick/get-detailed-data?sc=%s&dr=%s&question_type=fund&time_type=%s&ndd=%s";
         FundQuery query = new FundQuery();
         query.setPageSize(1000);
         query.setOrderBy("id asc");
-        List<FundDO> list = fundMapper.fetch(query);
+        query.setQueryDay(queryDay);
+        query.setIds(ids);
+        List<FundDO> list = fundDao.fetch(query);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new IllegalArgumentException("无数据");
+        }
 
         list.forEach(t -> {
             try {
+
+                FundStockQuery stockQuery = new FundStockQuery();
+                stockQuery.setFundId(t.getId());
+                stockQuery.setPageSize(1);
+                List<FundStockDO> fundStockDOList = fundStockDao.fetch(stockQuery);
+                if (!CollectionUtils.isEmpty(fundStockDOList)) {
+                    return;
+                }
+
                 int pos = t.getCode().indexOf(".");
                 String url = String.format(format, t.getCode().substring(0, pos), t.getStockDay(), "%E6%8A%A5%E5%91%8A%E6%9C%9F", "%E5%9F%BA%E9%87%91%40%E9%87%8D%E4%BB%93%E8%82%A1%E6%98%8E%E7%BB%86");
                 String s = HttpUtil.doGet(url, "utf-8");
@@ -121,12 +168,21 @@ public class FundService {
 
                     fundStockDao.insert(model);
                 });
-                Thread.sleep(300);
+                Thread.sleep(500);
             } catch (Exception e) {
                 log.error("", e);
             }
         });
     }
+
+    FundDO getLatestRecord() {
+        FundQuery query = new FundQuery();
+        query.setPageSize(1);
+        query.setOrderBy("id desc");
+        List<FundDO> list = fundDao.fetch(query);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
+    }
+
 
     @Data
     private static class StockResponse {

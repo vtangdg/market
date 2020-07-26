@@ -1,6 +1,6 @@
 package com.example.market.controller;
 
-import com.example.market.dal.dao.FundMapper;
+import com.example.market.dal.dao.FundDao;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +15,10 @@ import javax.annotation.Resource;
 @ResponseBody
 public class TestController {
     @Resource
-    private FundMapper fundMapper;
+    private FundDao fundDao;
 
     @RequestMapping("test")
     public Object list() {
-        return fundMapper.selectOneById(1L);
+        return fundDao.selectOneById(1L);
     }
 }
