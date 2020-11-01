@@ -45,23 +45,22 @@ public class ExcelService {
         String stockDay = specialDayExtract(excelList.get(0).get(7), 0).replace(".", "-");
         String cxDay = specialDayExtract(excelList.get(0).get(6), 1);
         excelList.remove(0);
-        int i = 0;
         List<FundDO> collect = excelList.stream().map(t -> {
+            // 0-基金代码、1-基金简称、5-5年增长、6-晨星3年评级、7-重仓股票、9-晨星5年评级、10-前10重仓占净值比
             FundDO model = new FundDO();
             model.setCode(t.get(0));
             model.setName(t.get(1));
             model.setIncrY5(new BigDecimal(t.get(5)));
             model.setCxL3(Byte.valueOf(t.get(6).substring(0, 1)));
-            if (!NumberUtils.isDigits(t.get(9).substring(0, 1))) {
-                log.warn(t.get(9));
+            if (!NumberUtils.isDigits(t.get(7).substring(0, 1))) {
+                log.warn(t.get(7));
                 model.setCxL5((byte)-1);
             } else {
-                model.setCxL5(Byte.valueOf(t.get(9).substring(0, 1)));
+                model.setCxL5(Byte.valueOf(t.get(7).substring(0, 1)));
             }
-
+            model.setHeavyStock(t.get(8));
+            model.setStockRatio(new BigDecimal(t.get(11)));
             model.setCxDay(cxDay);
-            model.setHeavyStock(t.get(7));
-            model.setStockRatio(new BigDecimal(t.get(10)));
             model.setStockDay(stockDay);
             model.setQueryDay(fileName);
 

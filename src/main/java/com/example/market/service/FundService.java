@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -40,7 +41,7 @@ public class FundService {
     private FundStockDao fundStockDao;
 
     public Map countStock(String queryDay) {
-        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entries = listStockDataMap(queryDay);
+        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entries = listStockDataMap(queryDay, new ArrayList<>());
         Map<String, Integer> resMap = new LinkedHashMap<>();
         entries.forEach(t -> {
             resMap.put(t.getKey(), t.getValue().size());
@@ -68,7 +69,7 @@ public class FundService {
         return linkMap;
     }
 
-    public List<Map.Entry<String, List<FundStockAnalysisDTO>>> listStockDataMap(String queryDay) {
+    public List<Map.Entry<String, List<FundStockAnalysisDTO>>> listStockDataMap(String queryDay, List<String> excludeStockList) {
         if (queryDay == null) {
             FundDO latestRecord = getLatestRecord();
             if (latestRecord == null) {
@@ -81,8 +82,10 @@ public class FundService {
         list.forEach(t -> t.setStockRMB(parseStockValue(t.getStockValue())));
         Map<String, List<FundStockAnalysisDTO>> collect = list.stream()
                 .filter(t -> {
-                    if (NOT_SHOW_STOCK.contains(t.getStockName())) {
-                        return false;
+                    for (String e : excludeStockList) {
+                        if (t.getStockName().contains(e)) {
+                            return false;
+                        }
                     }
                     if (EXCLUDE_START_3 && t.getStockName().contains(",3")) {
                         return false;
@@ -102,8 +105,10 @@ public class FundService {
         return entryList;
     }
 
-    public List<FundStockAnalysisDTO> listStockData(String queryDay) {
-        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entryList = listStockDataMap(queryDay);
+    public List<FundStockAnalysisDTO> listStockData(String queryDay, String excludeStock) {
+        List<String> excludeStockList = StringUtils.isEmpty(excludeStock) ? new ArrayList<>() : Arrays.stream(excludeStock.split(",")).collect(Collectors.toList());
+
+        List<Map.Entry<String, List<FundStockAnalysisDTO>>> entryList = listStockDataMap(queryDay, excludeStockList);
         List<FundStockAnalysisDTO> resList = new ArrayList<>();
         entryList.forEach(t -> resList.addAll(t.getValue()));
         return resList;

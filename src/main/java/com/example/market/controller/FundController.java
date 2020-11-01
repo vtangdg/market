@@ -64,8 +64,11 @@ public class FundController {
     }
 
     @RequestMapping("stockDataTable")
-    public String stockDataTable(@RequestParam(name = "queryDay", required = false) String queryDay, Model model) {
-        List<FundStockAnalysisDTO> list = fundService.listStockData(queryDay);
+    public String stockDataTable(@RequestParam(name = "queryDay", required = false) String queryDay,
+                                 @RequestParam(name = "excludeStock", required = false) String excludeStock,
+                                 Model model) {
+
+        List<FundStockAnalysisDTO> list = fundService.listStockData(queryDay, excludeStock);
         model.addAttribute("items", list);
         return "stockDisplayList";
     }
