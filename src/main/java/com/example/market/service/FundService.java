@@ -32,6 +32,7 @@ public class FundService {
             "五粮液,000858"
             );
     private final boolean EXCLUDE_START_3 = true;
+    private final boolean EXCLUDE_START_688 = true;
 
     @Resource
     private FundDao fundDao;
@@ -76,7 +77,6 @@ public class FundService {
             queryDay = latestRecord.getQueryDay();
         }
 
-
         List<FundStockAnalysisDTO> list = fundDao.listAnalysisData(queryDay);
         list.forEach(t -> t.setStockRMB(parseStockValue(t.getStockValue())));
         Map<String, List<FundStockAnalysisDTO>> collect = list.stream()
@@ -85,6 +85,9 @@ public class FundService {
                         return false;
                     }
                     if (EXCLUDE_START_3 && t.getStockName().contains(",3")) {
+                        return false;
+                    }
+                    if (EXCLUDE_START_688 && t.getStockName().contains(",688")) {
                         return false;
                     }
                     return true;
