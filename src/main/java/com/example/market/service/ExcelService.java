@@ -15,10 +15,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,20 +34,21 @@ public class ExcelService {
      * @throws Exception 异常
      */
     public void importExcel(InputStream inputStream, String fileName){
-        // 1:获取数据
+        // 1:获取数据dds
         List<Map<Integer, String>> excelList = readExcel(inputStream);
         if (excelList == null || excelList.size() < 1) {
             return;
         }
-        String stockDay = specialDayExtract(excelList.get(0).get(7), 0).replace(".", "-");
+        int columnStock = 8;
+        String stockDay = specialDayExtract(excelList.get(0).get(columnStock), 0).replace(".", "-");
         String cxDay = specialDayExtract(excelList.get(0).get(6), 1);
         excelList.remove(0);
         List<FundDO> collect = excelList.stream().map(t -> {
-            // 0-基金代码、1-基金简称、5-5年增长、6-晨星3年评级、7-重仓股票、9-晨星5年评级、10-前10重仓占净值比
+            // 0-基金代码、1-基金简称、5-5年增长、6-晨星3年评级、7-晨星5年评级、8-重仓股票、11-前10重仓占净值比
             FundDO model = new FundDO();
             model.setCode(t.get(0));
             model.setName(t.get(1));
-            model.setIncrY5(new BigDecimal(t.get(5)));
+            model.setIncrY5(new BigDecimal(save2Zero(t.get(5))));
             model.setCxL3(Byte.valueOf(t.get(6).substring(0, 1)));
             if (!NumberUtils.isDigits(t.get(7).substring(0, 1))) {
                 log.warn(t.get(7));
@@ -58,8 +56,13 @@ public class ExcelService {
             } else {
                 model.setCxL5(Byte.valueOf(t.get(7).substring(0, 1)));
             }
-            model.setHeavyStock(t.get(8));
-            model.setStockRatio(new BigDecimal(t.get(11)));
+            model.setHeavyStock(t.get(columnStock));
+            String stockRatioStr = t.get(10);;
+            if (NumberUtils.isCreatable(stockRatioStr)) {
+                model.setStockRatio(new BigDecimal(stockRatioStr));
+            } else {
+                model.setStockRatio(BigDecimal.ZERO);
+            }
             model.setCxDay(cxDay);
             model.setStockDay(stockDay);
             model.setQueryDay(fileName);
@@ -163,5 +166,22 @@ public class ExcelService {
         }
 
         return varList;
+    }
+
+    private static String save2Zero(String price) {
+        if (StringUtils.isEmpty(price)) {
+            return price;
+        }
+        List<String> strings = Arrays.asList(price.split("\\."));
+        if (strings.size() < 2) {
+            return price + ".00";
+        }
+        if (strings.get(1).length() < 2) {
+            return strings.get(0) + "." + strings.get(1) + "0";
+        } else if (strings.get(1).length() == 2) {
+            return price;
+        } else {
+            return strings.get(0) + "." + strings.get(1).substring(0, 2);
+        }
     }
 }

@@ -175,7 +175,7 @@
     <select id="listAnalysisData" resultType="com.example.market.model.FundStockAnalysisDTO">
         select b.stockName, b.stockValue, b.stockChange, b.stockNum, a.name as fundName, b.rank, a.cxL3, a.cxL5
         from Fund a
-                 join FundStock b on a.id = b.fundId
+                 left join FundStock b on a.id = b.fundId
         where a.queryDay = #{queryDay}
         limit 50000
     </select>
